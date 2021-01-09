@@ -19,8 +19,8 @@ const client = new Client({
 });
 
 client.connect();
-
-client.query("INSERT INTO players (name, country, age) VALUES ('Mark', 'USA', 32);", (err, res) => {
+const Josh = 'Josh'
+client.query(`INSERT INTO players (name, country, age) VALUES (${Josh}, 'USA', 33);`, (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
         console.log(JSON.stringify(row));
