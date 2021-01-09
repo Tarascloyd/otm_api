@@ -26,6 +26,7 @@ db.transaction(trx => {
         .then(trx.commit)
         .catch(trx.rollback)
 })
+    .catch(err => console.log(err))
 
 
 app.listen(3000, ()=> {
