@@ -19,12 +19,7 @@ const client = new Client({
 });
 
 client.connect();
-const sql = "INSERT INTO players (name, country, age) VALUES ?;";
-const values = [
-    ['Josh', 'USA', 33],
-    ['Trep', 'Belgium', 29]
-];
-client.query(sql, [values], (err, res) => {
+client.query("INSERT INTO players (name, country, age) VALUES ('Josh', 'USA', 33);", (err, res) => {
     if (err) throw err;
     for (let row of res.rows) {
         console.log(JSON.stringify(row));
