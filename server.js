@@ -3,38 +3,32 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const knex = require('knex');
 
-const { Client } = require('pg');
+const db = knex({
+    client: 'pg',
+    connection: {
+        connectionString: process.env.DATABASE_URL,
+        ssl: true
+    }
+});
 
 const app = express();
 
 app.use(cors())
 app.use(bodyParser.json());
 
-
-const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-
-client.connect();
-
-client.query("INSERT INTO players (name, country, age) VALUES ('Sally', 'Canada', 19);", (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-        console.log(JSON.stringify(row));
-    }
-    client.end();
-});
+db.transaction(trx => {
+    trx.insert({
+        name: 'John Brown',
+        country: 'USA',
+        age: 23,
+    })
+        .into('players')
+        .then(trx.commit)
+        .catch(trx.rollback)
+})
 
 
 app.listen(3000, ()=> {
     console.log('app is running on port 3000');
 })
-
-
-
-
-
 
