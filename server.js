@@ -5,7 +5,6 @@ const knex = require('knex');
 
 const db = knex({
     client: 'pg',
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     connection: {
         connectionString: process.env.DATABASE_URL,
         ssl: true
