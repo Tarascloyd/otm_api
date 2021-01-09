@@ -19,7 +19,7 @@ const client = new Client({
 });
 
 client.connect();
-const sql = "INSERT INTO players (name, country, age) VALUES ?";
+const sql = "INSERT INTO players (name, country, age) VALUES ?;";
 const values = [
     ['Josh', 'USA', 33],
     ['Trep', 'Belgium', 29]
