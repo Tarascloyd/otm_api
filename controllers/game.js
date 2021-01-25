@@ -4,21 +4,10 @@ const Tournament = require('../classes/Tournament.js')
 const Week = require('../classes/Week.js')
 const utils = require('./game.utils.js')
 
-const knex = require('knex');
-
-const db = knex({
-    client: 'pg',
-    connection: {
-        connectionString: "postgres://wrbetfiymlulha:fc7970280bff58a139b9b8da6bbacff6de4c4e231784715c63f248f50fc08019@ec2-79-125-86-58.eu-west-1.compute.amazonaws.com:5432/da1dgcsikfl2ud",
-            ssl: {
-        rejectUnauthorized: false
-    }
-    }
-});
 
 
 
-async function play() {
+async function play(req,res,db) {
   const rows = await db('players').join('plskills', 'players.id', 'plskills.plid')
                                   .join('plstats', 'players.id', 'plstats.plid')
                       .select(
@@ -67,12 +56,11 @@ async function play() {
   //   GrandSlam1.start();
   // }
 
-  const week1 = new Week(players)
-  week1.getPlayers()
-  week1.start()
+  const week1 = new Week(players);
+  week1.getPlayers();
+  week1.start();
 
-
-
+  res.json(players);
  
   for (player of players) {
     await db('plstats')
